@@ -1,0 +1,56 @@
+body {
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background: linear-gradient(135deg, #f5f5dc, #d2b48c);
+    color: #4b3621;
+}
+
+h1 {
+    text-align: center;
+    font-size: 18px;
+    margin: 10px 0;
+    color: #4b3621;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 15px;
+}
+
+input, button, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #6b4226;
+    color: #4b3621;
+}
+
+button {
+    background: #6b4226;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+button:hover {
+    background: #5a3822;
+    transform: scale(1.05);
+}
+
+#result {
+    margin-top: 10px;
+    padding: 10px;
+    background: #ece4d8;
+    color: #4b3621;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    display: none;
+    border: 1px solid #d2b48c;
+}
