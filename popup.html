@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Extract Custom Data</title>
+    <title>Extract Your Data</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <div class="container">
-        <h1>Extract Custom Data</h1>
+        <h1>Extract Your Data</h1>
+        
         <label for="regexInput">Enter Regex (default: <code>C\d{2,4}</code>):</label>
-        <input id="regexInput" type="text" placeholder="C\\d{2,4}" />
+        <input id="regexInput" type="text" placeholder="C\d{2,4}" />
+        <span id="regexError" style="color: red; display: none;">
+            Invalid Regex! <a href="https://www.regex101.com/" target="_blank" style="color: red;">Click for more info</a>
+        </span>
+        <br>
 
         <label for="separatorInput">Enter Separator (default: <code> or </code>):</label>
         <input id="separatorInput" type="text" placeholder=" or " />

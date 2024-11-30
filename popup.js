@@ -5,6 +5,15 @@ document.getElementById("extractButton").addEventListener("click", async () => {
     const regexInput = document.getElementById("regexInput").value || "C\\d{2,4}";
     const separatorInput = document.getElementById("separatorInput").value || " or ";
 
+    // Validate regex
+    try {
+        new RegExp(regexInput);  // Test if the regex is valid
+        document.getElementById("regexError").style.display = "none"; // Hide error if valid
+    } catch (e) {
+        document.getElementById("regexError").style.display = "inline"; // Show error if invalid
+        return; // Stop execution if regex is invalid
+    }
+
     // Save user preferences to Chrome storage
     chrome.storage.sync.set({ regex: regexInput, separator: separatorInput });
 
