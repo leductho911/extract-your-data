@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Extension Settings</h1>
+
+        <label for="defaultRegex">Default Regex:</label>
+        <input id="defaultRegex" type="text" placeholder="C\\d{2,4}" />
+
+        <label for="defaultSeparator">Default Separator:</label>
+        <input id="defaultSeparator" type="text" placeholder=" or " />
+
+        <button id="saveButton">Save Settings</button>
+        <div id="statusMessage" style="margin-top: 10px; display: none; color: green;">Settings saved!</div>
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html>

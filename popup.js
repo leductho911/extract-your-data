@@ -1,31 +1,40 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // Load the saved default regex and separator from storage
+    chrome.storage.sync.get(["defaultRegex", "defaultSeparator"], (settings) => {
+        document.getElementById("regexInput").value = settings.defaultRegex || "C\\d{2,4}";
+        document.getElementById("separatorInput").value = settings.defaultSeparator || " or ";
+    });
+});
+
 document.getElementById("extractButton").addEventListener("click", async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    // Get user inputs or use defaults
-    const regexInput = document.getElementById("regexInput").value || "C\\d{2,4}";
-    const separatorInput = document.getElementById("separatorInput").value || " or ";
+    // Load regex and separator input values
+    const regexInput = document.getElementById("regexInput").value;
+    const separatorInput = document.getElementById("separatorInput").value;
 
     // Validate regex
     try {
-        new RegExp(regexInput);  // Test if the regex is valid
+        new RegExp(regexInput); // Validate the regex
         document.getElementById("regexError").style.display = "none"; // Hide error if valid
     } catch (e) {
         document.getElementById("regexError").style.display = "inline"; // Show error if invalid
         return; // Stop execution if regex is invalid
     }
 
-    // Save user preferences to Chrome storage
+    // Save user inputs temporarily
     chrome.storage.sync.set({ regex: regexInput, separator: separatorInput });
 
+    // Extract matching text
     chrome.scripting.executeScript(
         {
             target: { tabId: tab.id },
             func: (regexStr) => {
-                const regex = new RegExp(regexStr, "g"); // Convert string to RegExp
+                const regex = new RegExp(regexStr, "g");
                 const matches = [...document.body.innerText.matchAll(regex)];
-                return matches.map(match => match[0]);
+                return matches.map((match) => match[0]);
             },
-            args: [regexInput] // Pass the regex input
+            args: [regexInput]
         },
         (results) => {
             if (results && results[0] && results[0].result) {
@@ -33,7 +42,6 @@ document.getElementById("extractButton").addEventListener("click", async () => {
                 const resultDiv = document.getElementById("result");
                 const copyButton = document.getElementById("copyButton");
 
-                // Use the separator from storage or default
                 if (data.length > 0) {
                     resultDiv.textContent = data.join(separatorInput);
                     resultDiv.style.display = "block";
@@ -54,12 +62,4 @@ document.getElementById("extractButton").addEventListener("click", async () => {
             }
         }
     );
-});
-
-// Load saved settings when the popup opens
-document.addEventListener("DOMContentLoaded", () => {
-    chrome.storage.sync.get(["regex", "separator"], (settings) => {
-        document.getElementById("regexInput").value = settings.regex || "C\\d{2,4}";
-        document.getElementById("separatorInput").value = settings.separator || " or ";
-    });
 });
