@@ -20,7 +20,8 @@ h1 {
     padding: 15px;
 }
 
-input, button, select {
+input,
+button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -41,24 +42,4 @@ button {
 button:hover {
     background: #5a3822;
     transform: scale(1.05);
-}
-
-#result {
-    margin-top: 10px;
-    padding: 10px;
-    background: #ece4d8;
-    color: #4b3621;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: 'Courier New', monospace;
-    display: none;
-    border: 1px solid #d2b48c;
-}
-
-#settingsIcon {
-    width: 24px;
-    height: 24px;
-    display: block;
-    margin: 0 auto 10px auto;
-    cursor: pointer;
 }

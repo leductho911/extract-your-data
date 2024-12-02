@@ -1,11 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "Extract Custom Data",
+    "name": "Extract Your Data",
     "author": {
         "email": "leductho911@gmail.com"
     },
-    "version": "1.0.0",
-    "description": "Extract and copy data matching the format Cxxxx, Cxxx or Cxx from the current webpage.",
+    "version": "1.0.1",
+    "description": "A chrome extension that extract custom data on your opening tab",
     "permissions": ["activeTab", "scripting", "storage"],
     "host_permissions": ["<all_urls>"],
     "action": {
@@ -15,5 +15,9 @@
         "48": "images/icon48.png",
         "128": "images/icon128.png"
       }
+    },
+    "options_ui": {
+        "page": "settings.html",
+        "open_in_tab": true
     }
   }
