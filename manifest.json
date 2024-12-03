@@ -4,20 +4,24 @@
     "author": {
         "email": "leductho911@gmail.com"
     },
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A chrome extension that extract custom data on your opening tab",
-    "permissions": ["activeTab", "scripting", "storage"],
+    "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
     "host_permissions": ["<all_urls>"],
     "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
-      }
+      "default_popup": "popup.html"
     },
     "options_ui": {
         "page": "settings.html",
         "open_in_tab": true
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "icons": {
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
     }
   }
