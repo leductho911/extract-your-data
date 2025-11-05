@@ -1,42 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Load the saved default regex and separator from storage
     chrome.storage.sync.get(["defaultRegex", "defaultSeparator"], (settings) => {
         document.getElementById("regexInput").value = settings.defaultRegex || "C\\d{2,4}";
         document.getElementById("separatorInput").value = settings.defaultSeparator || " or ";
     });
 
-    // Check if any text was selected via context menu
     chrome.storage.local.get("selectedText", (result) => {
         const selectedText = result.selectedText || "";
         if (selectedText) {
             extractFromSelectedText(selectedText);
-
-            // Clear the selectedText after use
             chrome.storage.local.remove("selectedText");
         }
     });
 });
 
+document.getElementById("extractButton").textContent = "Extract and Copy";
+
 document.getElementById("extractButton").addEventListener("click", async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    // Load regex and separator input values
     const regexInput = document.getElementById("regexInput").value;
     const separatorInput = document.getElementById("separatorInput").value;
 
-    // Validate regex
     try {
-        new RegExp(regexInput); // Validate the regex
-        document.getElementById("regexError").style.display = "none"; // Hide error if valid
+        new RegExp(regexInput);
+        document.getElementById("regexError").style.display = "none";
     } catch (e) {
-        document.getElementById("regexError").style.display = "inline"; // Show error if invalid
-        return; // Stop execution if regex is invalid
+        document.getElementById("regexError").style.display = "inline";
+        return;
     }
 
-    // Save user inputs temporarily
     chrome.storage.sync.set({ regex: regexInput, separator: separatorInput });
 
-    // Extract matching text from the page
     chrome.scripting.executeScript(
         {
             target: { tabId: tab.id },
@@ -55,7 +49,6 @@ document.getElementById("extractButton").addEventListener("click", async () => {
     );
 });
 
-// Function to extract data from selected text
 function extractFromSelectedText(selectedText) {
     const regexInput = document.getElementById("regexInput").value;
     const separatorInput = document.getElementById("separatorInput").value;
@@ -66,30 +59,26 @@ function extractFromSelectedText(selectedText) {
         const extractedData = matches.map((match) => match[0]);
         displayResults(extractedData, separatorInput);
     } catch (e) {
-        document.getElementById("regexError").style.display = "inline"; // Show error if regex is invalid
+        document.getElementById("regexError").style.display = "inline";
     }
 }
 
-// Function to display results in the popup
 function displayResults(data, separator) {
     const resultDiv = document.getElementById("result");
-    const copyButton = document.getElementById("copyButton");
 
     if (data.length > 0) {
-        resultDiv.textContent = data.join(separator);
+        const resultText = data.join(separator);
+        resultDiv.textContent = resultText;
         resultDiv.style.display = "block";
-        copyButton.style.display = "inline-block";
 
-        copyButton.addEventListener("click", () => {
-            navigator.clipboard.writeText(data.join(separator));
-            copyButton.textContent = "Copied!";
-            setTimeout(() => {
-                copyButton.textContent = "Copy";
-            }, 2000);
+        // Automatically copy to clipboard
+        navigator.clipboard.writeText(resultText).then(() => {
+            // alert("Data copied to clipboard!");
+        }).catch(err => {
+            console.error("Failed to copy data: ", err);
         });
     } else {
         resultDiv.textContent = "No matching data found.";
         resultDiv.style.display = "block";
-        copyButton.style.display = "none";
     }
 }
